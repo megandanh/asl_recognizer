@@ -8,6 +8,7 @@ from AutoEncoder import AutoEncoder
 from AutoEncoderClassifier import AutoEncoderClassifier
 import matplotlib.pyplot as plt
 
+# This function will train the regular Autoencoder.
 def train(model, device, train_loader, optimizer, criterion, epoch):
     model.train()
     total_loss = 0
@@ -34,6 +35,8 @@ def train(model, device, train_loader, optimizer, criterion, epoch):
 
     return avg_loss
 
+# This function will perform training for the CNN
+# with the Autoencoder as input.
 def train_with_autoencoder(autoencoder, cnn, device, train_loader, optimizer, criterion, epoch):
     autoencoder.eval()  # Fix autoencoder weights
     cnn.train()
@@ -63,7 +66,7 @@ def train_with_autoencoder(autoencoder, cnn, device, train_loader, optimizer, cr
     print(f"Epoch {epoch} - Autoencoder CNN Loss: {avg_loss:.4f}")
     return avg_loss
 
-
+# This function will test the Autoencoder
 def test(model, device, test_loader, criterion):
     model.eval()
     losses = []
@@ -83,6 +86,8 @@ def test(model, device, test_loader, criterion):
     print(f'\nTest set: Average loss: {test_loss:.4f}\n')
     return test_loss
 
+# This function will test the CNN
+# with the autoencoder as input.
 def test_with_autoencoder(autoencoder, cnn, device, test_loader, criterion):
     autoencoder.eval()
     cnn.eval()
@@ -113,17 +118,13 @@ def test_with_autoencoder(autoencoder, cnn, device, test_loader, criterion):
     return avg_loss, accuracy
 
 def denormalize(tensor, mean, std):
-    """
-    Denormalize the tensor by reversing the normalization operation.
-    """
+    # Denormalize the tensor by reversing the normalization operation
     for t, m, s in zip(tensor, mean, std):
         t.mul_(s).add_(m)  # Multiply by std and add mean
     return tensor
 
 def visualize_samples(model, device, test_loader):
-    """
-    Visualize a few test samples and their reconstructions.
-    """
+    # Visualize a few test samples and their reconstructions.
     model.eval()
     images, _ = next(iter(test_loader))
     images = images.to(device)
@@ -156,9 +157,7 @@ def visualize_samples(model, device, test_loader):
     plt.show()
 
 def plot_loss(train_losses, test_losses):
-    """
-    Plot the training and test loss over epochs.
-    """
+    # Plot the training and test loss over epochs.
     epochs = range(1, len(train_losses) + 1)
     
     plt.figure(figsize=(10, 6))
@@ -173,9 +172,8 @@ def plot_loss(train_losses, test_losses):
     plt.show()
 
 def plot_metrics(autoencoder_loss, cnn_loss, cnn_accuracy, num_epochs):
-    """
-    Plot Autoencoder loss, CNN loss, and CNN accuracy.
-    """
+    
+    # Plot Autoencoder loss, CNN loss, and CNN accuracy.
     epochs = range(1, num_epochs + 1)
 
     plt.figure(figsize=(15, 5))
