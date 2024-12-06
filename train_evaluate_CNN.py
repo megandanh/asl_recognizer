@@ -65,7 +65,8 @@ def test(model, device, test_loader, criterion):
 
 
 def visualize_predictions(model, device, test_loader, classes, num_images=5):
-    
+    # This function will show a sample
+    # of 5 of the images used with the model.
     model.eval()
     images_displayed = 0
 
